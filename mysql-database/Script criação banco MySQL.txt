@@ -1,0 +1,33 @@
+create database poi;
+
+CREATE FUNCTION calcular_distancia_ponto (lat_veiculo double, long_veiculo double, lat_poi double, long_poi double)
+RETURNS double
+NO SQL
+DETERMINISTIC
+return ((6371 *
+        acos(
+            cos(radians(lat_poi)) *
+            cos(radians(lat_veiculo)) *
+            cos(radians(long_poi) - radians(long_veiculo)) +
+            sin(radians(lat_poi)) *
+            sin(radians(lat_veiculo))
+        ))
+) ;
+
+create table PONTO_INTERESSE (
+    ID	      bigint primary key,
+    NOME      varchar(50) not null,
+    RAIO      int not null,
+    LONGITUDE double not null,
+    LATITUDE  double not null
+);
+
+create table POSICAO (
+    ID		bigint primary key,
+    PLACA 	varchar(8) not null,
+    DTA_POSICAO	datetime not null,
+    VELOCIDADE 	smallint not null,
+    LONGITUDE	double not null,
+    LATITUDE  	double not null,
+    IGNICAO 	bit(1) not null
+);
