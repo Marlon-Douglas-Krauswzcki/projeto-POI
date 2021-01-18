@@ -1,0 +1,103 @@
+ <table mat-table
+       [dataSource]="pontosInteresse" multiTemplateDataRows
+       class="mat-elevation-z8">
+
+  <ng-container matColumnDef="nome">
+    <th mat-header-cell *matHeaderCellDef> Nome </th>
+    <td mat-cell *matCellDef="let element"> {{element.pontoInteresse.nome}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="raio">
+    <th mat-header-cell *matHeaderCellDef> Raio </th>
+    <td mat-cell *matCellDef="let element"> {{element.pontoInteresse.raio}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+      <div class="example-element-detail"
+           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+              <table mat-table
+                    [dataSource]="element.posicaoPOIDTOs" multiTemplateDataRows
+                    class="mat-elevation-z8 detalhes">
+                <ng-container matColumnDef="placa">
+                  <th mat-header-cell *matHeaderCellDef> Placa </th>
+                  <td mat-cell *matCellDef="let element"> {{element.posicaoInicial.placa}} </td>
+                </ng-container>
+              
+                <!-- Name Column -->
+                <ng-container matColumnDef="dtaPosicaoInicial">
+                  <th mat-header-cell *matHeaderCellDef> Data de Entrada </th>
+                  <td mat-cell *matCellDef="let element"> {{element.posicaoInicial.dtaPosicao | date: 'dd/MM/yyyy HH:mm:ss':'GMT'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="dtaPosicaoFinal">
+                  <th mat-header-cell *matHeaderCellDef> Data de Saída </th>
+                  <td mat-cell *matCellDef="let element"> {{element.posicaoFinal.dtaPosicao | date: 'dd/MM/yyyy HH:mm:ss':'GMT'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="periodo">
+                  <th mat-header-cell *matHeaderCellDef> Período</th>
+                  <td mat-cell *matCellDef="let element"> {{element.periodoPOI}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="subtitle">
+                  <th mat-header-cell-title *matHeaderCellDef 
+                      [style.text-align]="center"
+                      [attr.colspan]="4"> 
+                    Veículos
+                  </th>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="['subtitle']"></tr>
+                <tr mat-header-row *matHeaderRowDef="subcolumnsToDisplay"></tr>
+                <tr mat-row *matRowDef="let row; columns: subcolumnsToDisplay;"></tr>
+              </table>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="filter">
+    <th mat-header-cell *matHeaderCellDef 
+        [style.text-align]="center"
+        [attr.colspan]="2"> 
+        <form autocomplete="off" novalidate [formGroup]="formulario" (ngSubmit)="filtrarListaPOIs()" (ngReset)="reiniciarForm()">
+          <div fxLayout="row wrap">
+            <div fxFlex="50" fxFill fxLayoutAlign="start center">
+              <mat-form-field class="padding-form">
+                <input matInput type="text" formControlName="placa" placeholder="Placa"/>
+              </mat-form-field>
+              <mat-form-field class="padding-form">
+                <input matInput
+                placeholder="Data da Posição"
+                formControlName="dtaPosicao"
+                type="date">
+              </mat-form-field>
+              <button mat-icon-button color="primary" aria-label="Pesquisar" type="submit"> 
+                <mat-icon>search</mat-icon>
+              </button>
+            </div>
+          </div>
+      </form>
+
+
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="title">
+    <th mat-header-cell-title *matHeaderCellDef 
+        [style.text-align]="center"
+        [attr.colspan]="2"> 
+      Pontos de Interesse
+    </th>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="['title']"></tr>
+  <tr mat-header-row *matHeaderRowDef="['filter']"></tr>
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+      class="example-element-row"
+      [class.example-expanded-row]="expandedElement === element"
+      (click)="expandedElement = expandedElement === element ? null : element">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>
