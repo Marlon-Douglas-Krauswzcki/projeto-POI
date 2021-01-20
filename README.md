@@ -30,7 +30,7 @@ Lista veículos que estiveram no raio do ponto de interesse.</p>
 <h2 align="center"> MySQL </h2>
 <ul>
   <li>
-    Script de criação de dados e inserts básico disponíveis <a href="https://github.com/Marlon-Douglas-Krauswzcki/projeto-POI/tree/main/mysql-database" target="_blank">aqui.</a>
+    Script de criação das tabelas do banco de dados e inserts básicos, disponíveis <a href="https://github.com/Marlon-Douglas-Krauswzcki/projeto-POI/tree/main/mysql-database" target="_blank">aqui.</a>
   </li>
 </ul>
 
